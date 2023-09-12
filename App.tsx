@@ -103,8 +103,11 @@ function setupSDK() {
 }
 
 function isReadyForSPay() {
-  Alert.alert('Setup complited')
+  NativeModules.SPay.isReadyForSPay( ( error: any, event: [string: boolean]) =>
+    Alert.alert(`Is ready: ${event['isReady']}`)
+  )
 }
+
 const styles = StyleSheet.create({
   sectionContainer: {
     marginTop: 32,
