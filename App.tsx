@@ -45,15 +45,16 @@ function Section({children, title}: SectionProps): JSX.Element {
         ]}>
         {title}
       </Text>
-      <Text
+      { children }
+      {/* <Text
         style={[
-          styles.sectionDescription,
+          styles.highlight,
           {
             color: isDarkMode ? Colors.light : Colors.dark,
           },
         ]}>
         {children}
-      </Text>
+      </Text> */}
     </View>
   );
 }
@@ -78,17 +79,35 @@ function App(): JSX.Element {
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
-          <Section title="SetupSDK">
+          <Section title="Setup methods:">
             <Button 
-            title='Setup action'
-            onPress={ setupSDK }
+              title='Setup action'
+              onPress={ setupSDK }
+            />
+            <Button 
+              title='isReadyForSPay action'
+              onPress={ isReadyForSPay }
             />
           </Section>
-          <Section title="isReadyForSPay">
-          <Button 
-            title='isReadyForSPay action'
-            onPress={ isReadyForSPay }
-            />
+          <Section title="Auto pay methods:">
+            <Button 
+              title='payWithBankInvoiceId action'
+              onPress={ payWithBankInvoiceId }
+              />
+          </Section>
+          <Section title="Manual pay methods:">
+            <Button 
+              title='PaymentToken action'
+              onPress={ getPaymentToken }
+              />
+              <Button 
+              title='Pay action'
+              onPress={ pay }
+              />
+              <Button 
+              title='Manual close action'
+              onPress={ close }
+              />
           </Section>
         </View>
       </ScrollView>
@@ -103,8 +122,76 @@ function setupSDK() {
 }
 
 function isReadyForSPay() {
-  NativeModules.SPay.isReadyForSPay( ( error: any, event: [string: boolean]) =>
+  NativeModules.SPay.isReadyForSPay( (error: any, event: {[key: string]: boolean}) =>
     Alert.alert(`Is ready: ${event['isReady']}`)
+  )
+}
+
+function payWithBankInvoiceId() {
+
+  var requestParams = {
+    'merchantLogin': 'Test shop',
+    'bankInvoiceId': '1233',
+    'redirectUri': 'sberPayExampleapp://sberidauth'
+  }
+
+  NativeModules.SPay.payWithBankInvoiceId(
+    requestParams,
+    (error: any, event: {[key: string]: any}) => {
+      if(error) {
+        Alert.alert(`Error found! ${error}`)
+      }
+        Alert.alert(`Pay with success: ${event['success']}`)
+    }
+  )
+}
+
+function getPaymentToken() {
+
+  var requestParams = {
+    'merchantLogin': 'Test shop',
+    'amount': '1233',
+    'redirectUri': 'sberPayExampleapp://sberidauth',
+    'currency': '1233',
+    'mobilePhone': null,
+    'orderNumber': '1233',
+    'recurrentExipiry': '1233',
+    'recurrentFrequency': 2
+  }
+
+  NativeModules.SPay.getPaymentToken(
+    requestParams,
+    (error: any, event: {[key: string]: any}) => {
+      if(error) {
+        Alert.alert(`Error found! ${error}`)
+      }
+        Alert.alert(`Get paymentToken: ${event['paymentToken']}`)
+    }
+  )
+}
+
+function pay() {
+
+  var requestParams = {
+    'bankIncoiceId': '1233',
+    'paymentToken': '1233aa'
+  }
+
+  NativeModules.SPay.pay(
+    requestParams,
+    (error: any, event: {[key: string]: any}) => {
+      if(error) {
+        Alert.alert(`Error found! ${error}`)
+      }
+        Alert.alert(`Pay with success: ${event['success']}`)
+    }
+  )
+}
+
+function close() {
+
+  NativeModules.SPay.close(
+    Alert.alert(`Closed`)
   )
 }
 
