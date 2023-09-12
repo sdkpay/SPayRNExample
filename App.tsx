@@ -10,6 +10,7 @@ import type {PropsWithChildren} from 'react';
 import {
   Alert,
   Button,
+  NativeModules,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -96,7 +97,9 @@ function App(): JSX.Element {
 }
 
 function setupSDK() {
-  Alert.alert('Setup complited')
+  NativeModules.SPay.setupSDK(
+    Alert.alert('Setup complited')
+  )
 }
 
 function isReadyForSPay() {
