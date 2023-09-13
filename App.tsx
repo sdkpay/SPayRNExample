@@ -46,15 +46,6 @@ function Section({children, title}: SectionProps): JSX.Element {
         {title}
       </Text>
       { children }
-      {/* <Text
-        style={[
-          styles.highlight,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text> */}
     </View>
   );
 }
@@ -116,19 +107,18 @@ function App(): JSX.Element {
 }
 
 function setupSDK() {
-  NativeModules.SPay.setupSDK(
+  NativeModules.SPay.setupSDK( (result: any) =>
     Alert.alert('Setup complited')
   )
 }
 
 function isReadyForSPay() {
-  NativeModules.SPay.isReadyForSPay( (error: any, event: {[key: string]: boolean}) =>
-    Alert.alert(`Is ready: ${event['isReady']}`)
+  NativeModules.SPay.isReadyForSPay( (event: boolean) =>
+    Alert.alert(`Is ready: ${event}`)
   )
 }
 
 function payWithBankInvoiceId() {
-
   var requestParams = {
     'merchantLogin': 'Test shop',
     'bankInvoiceId': '1233',
@@ -137,17 +127,16 @@ function payWithBankInvoiceId() {
 
   NativeModules.SPay.payWithBankInvoiceId(
     requestParams,
-    (error: any, event: {[key: string]: any}) => {
+    (error: any, event: string) => {
       if(error) {
         Alert.alert(`Error found! ${error}`)
       }
-        Alert.alert(`Pay with success: ${event['success']}`)
+        Alert.alert(`Pay with status: ${event}`)
     }
   )
 }
 
 function getPaymentToken() {
-
   var requestParams = {
     'merchantLogin': 'Test shop',
     'amount': '1233',
@@ -161,17 +150,16 @@ function getPaymentToken() {
 
   NativeModules.SPay.getPaymentToken(
     requestParams,
-    (error: any, event: {[key: string]: any}) => {
+    (error: any, paymentToken: string, paymentTokenId: string, tokenExpiration: string) => {
       if(error) {
         Alert.alert(`Error found! ${error}`)
       }
-        Alert.alert(`Get paymentToken: ${event['paymentToken']}`)
+        Alert.alert(`Get paymentToken: ${paymentToken}`)
     }
   )
 }
 
 function pay() {
-
   var requestParams = {
     'bankIncoiceId': '1233',
     'paymentToken': '1233aa'
@@ -179,19 +167,21 @@ function pay() {
 
   NativeModules.SPay.pay(
     requestParams,
-    (error: any, event: {[key: string]: any}) => {
+    (error: any, event: string) => {
       if(error) {
         Alert.alert(`Error found! ${error}`)
       }
-        Alert.alert(`Pay with success: ${event['success']}`)
+        Alert.alert(`Pay with status: ${event}`)
     }
   )
 }
 
 function close() {
-
   NativeModules.SPay.close(
-    Alert.alert(`Closed`)
+    "success",
+    () => {
+      Alert.alert(`Closed`)
+    }
   )
 }
 
