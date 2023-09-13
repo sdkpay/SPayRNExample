@@ -7,9 +7,7 @@
 
 import React from 'react';
 import type {PropsWithChildren} from 'react';
-import {requireNativeComponent} from 'react-native';
-// module.exports = requireNativeComponent('RNTMap');
-import MapView from './MapView.js';
+import SPayButton from './SPayButtonView.js';
 import {
   Alert,
   Button,
@@ -60,11 +58,6 @@ function App(): JSX.Element {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
-  // return <MapView style={{
-  //   width: 50,
-  //   height: 50
-  //   }} />;
-
   return (
     <SafeAreaView style={backgroundStyle}>
     <StatusBar
@@ -105,7 +98,7 @@ function App(): JSX.Element {
               />
           </Section>
           <Section title="Native button:">
-            <MapView style={{
+            <SPayButton style={{
             width: 300,
             height: 50
             }} />
