@@ -7,6 +7,9 @@
 
 import React from 'react';
 import type {PropsWithChildren} from 'react';
+import {requireNativeComponent} from 'react-native';
+// module.exports = requireNativeComponent('RNTMap');
+import MapView from './MapView.js';
 import {
   Alert,
   Button,
@@ -57,20 +60,21 @@ function App(): JSX.Element {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
+  // return <MapView style={{
+  //   width: 50,
+  //   height: 50
+  //   }} />;
+
   return (
     <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Setup methods:">
+    <StatusBar
+      barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+      backgroundColor={backgroundStyle.backgroundColor}
+    />
+    <ScrollView
+      contentInsetAdjustmentBehavior="automatic"
+      style={backgroundStyle}>
+         <Section title="Setup methods:">
             <Button 
               title='Setup action'
               onPress={ setupSDK }
@@ -100,11 +104,17 @@ function App(): JSX.Element {
               onPress={ close }
               />
           </Section>
-        </View>
-      </ScrollView>
+          <Section title="Native button:">
+            <MapView style={{
+            width: 300,
+            height: 50
+            }} />
+         </Section>
+    </ScrollView>
     </SafeAreaView>
   );
 }
+  
 
 function setupSDK() {
   NativeModules.SPay.setupSDK( (result: any) =>
