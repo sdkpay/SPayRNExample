@@ -11,10 +11,12 @@ import java.util.List;
 
 public class SPayPackage implements ReactPackage {
 
-   @Override
-   public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
-       return Collections.emptyList();
-   }
+    @Override
+    public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
+        List<ViewManager> modules = new ArrayList<>();
+        modules.add(new SPayButtonManager(reactContext));
+        return modules;
+    }
 
    @Override
    public List<NativeModule> createNativeModules(

@@ -1,10 +1,13 @@
-import PropTypes from 'prop-types';
+
 import React from 'react';
+import { PanGestureHandler } from 'react-native';
 import {requireNativeComponent} from 'react-native';
 
 export default class SPayButton extends React.Component {
   render() {
-    return <RNTSPayButton {...this.props} />;
+    return(
+      <RNTSPayButton {...this.props} />
+    );
   }
 }
 

@@ -19,14 +19,11 @@ import {
   Text,
   useColorScheme,
   View,
+  TouchableHighlight
 } from 'react-native';
 
 import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
+  Colors
 } from 'react-native/Libraries/NewAppScreen';
 
 type SectionProps = PropsWithChildren<{
@@ -98,10 +95,12 @@ function App(): JSX.Element {
               />
           </Section>
           <Section title="Native button:">
-            <SPayButton style={{
-            width: 300,
-            height: 50
-            }} />
+            <TouchableHighlight onPress={onPressSPayButton} underlayColor="white">
+              <SPayButton style={{
+              height: 50
+              }} 
+              />
+            </TouchableHighlight>
          </Section>
     </ScrollView>
     </SafeAreaView>
@@ -186,6 +185,10 @@ function close() {
       Alert.alert(`Closed`)
     }
   )
+}
+
+function onPressSPayButton() {
+  Alert.alert('Button pressed')
 }
 
 const styles = StyleSheet.create({
