@@ -8,6 +8,7 @@
 import React from 'react';
 import type {PropsWithChildren} from 'react';
 import SPayButton from './SPayButtonView.js';
+import SPayBridgeModule from './SPayBridgeModule';
 import {
   Alert,
   Button,
@@ -95,29 +96,31 @@ function App(): JSX.Element {
               />
           </Section>
           <Section title="Native button:">
-            <TouchableHighlight onPress={onPressSPayButton} underlayColor="white">
-              <SPayButton style={{
-              height: 50
-              }} 
-              />
-            </TouchableHighlight>
          </Section>
     </ScrollView>
+    <TouchableHighlight onPress={onPressSPayButton} underlayColor="white">
+        <SPayButton style={{
+        height: 100,
+        paddingHorizontal: 16
+        }}
+      />
+     </TouchableHighlight>
     </SafeAreaView>
   );
 }
   
 
 function setupSDK() {
-  NativeModules.SPay.setupSDK( (result: any) =>
-    Alert.alert('Setup complited')
-  )
+  SPayBridgeModule.setupSDK( () => {
+    Alert.alert(`setup complited`)
+  })
 }
 
 function isReadyForSPay() {
-  NativeModules.SPay.isReadyForSPay( (event: boolean) =>
-    Alert.alert(`Is ready: ${event}`)
-  )
+  SPayBridgeModule.isReadyForSPay( 
+    (isReady: boolean) => {
+      Alert.alert(`is ready for spay: ${isReady}`)
+  })
 }
 
 function payWithBankInvoiceId() {
@@ -127,15 +130,14 @@ function payWithBankInvoiceId() {
     'redirectUri': 'sberPayExampleapp://sberidauth'
   }
 
-  NativeModules.SPay.payWithBankInvoiceId(
+  SPayBridgeModule.payWithBankInvoiceId(
     requestParams,
     (error: any, event: string) => {
       if(error) {
         Alert.alert(`Error found! ${error}`)
       }
         Alert.alert(`Pay with status: ${event}`)
-    }
-  )
+    })
 }
 
 function getPaymentToken() {
@@ -144,19 +146,20 @@ function getPaymentToken() {
     'amount': '1233',
     'redirectUri': 'sberPayExampleapp://sberidauth',
     'currency': '1233',
-    'mobilePhone': null,
+    'mobilePhone': undefined,
     'orderNumber': '1233',
     'recurrentExipiry': '1233',
     'recurrentFrequency': 2
   }
 
-  NativeModules.SPay.getPaymentToken(
+  SPayBridgeModule.getPaymentToken(
     requestParams,
     (error: any, paymentToken: string, paymentTokenId: string, tokenExpiration: string) => {
       if(error) {
         Alert.alert(`Error found! ${error}`)
-      }
+      } else {
         Alert.alert(`Get paymentToken: ${paymentToken}`)
+      }
     }
   )
 }
@@ -167,7 +170,7 @@ function pay() {
     'paymentToken': '1233aa'
   }
 
-  NativeModules.SPay.pay(
+  SPayBridgeModule.pay(
     requestParams,
     (error: any, event: string) => {
       if(error) {
@@ -179,7 +182,7 @@ function pay() {
 }
 
 function close() {
-  NativeModules.SPay.close(
+  SPayBridgeModule.close(
     "success",
     () => {
       Alert.alert(`Closed`)

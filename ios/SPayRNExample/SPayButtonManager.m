@@ -7,9 +7,7 @@ RCT_EXPORT_MODULE(RNTSPayButton)
 
 - (UIView *)view
 {
-  UIView* view = [[UIView alloc] init];
-  view.backgroundColor = UIColor.greenColor;
-  return view;
+  return [[SBPButton alloc] init];
 }
 
 @end

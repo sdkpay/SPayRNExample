@@ -51,5 +51,35 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	    <key>DTXAutoStart</key>
+    <string>false</string>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+       <string>sbolidexternallogin</string>
+        <string>sberbankidexternallogin</string>
+    </array>
+   <key>NSAppTransportSecurity</key>
+      <dict>
+         <key>NSExceptionDomains</key>
+         <dict>
+            <key>gate1.spaymentsplus.ru</key>
+            <dict>
+               <key>NSExceptionAllowsInsecureHTTPLoads</key>
+               <true/>
+            </dict>
+            <key>ift.gate2.spaymentsplus.ru</key>
+            <dict>
+               <key>NSExceptionAllowsInsecureHTTPLoads</key>
+               <true/>
+            </dict>
+            <key>cms-res.online.sberbank.ru</key>
+               <dict>
+                   <key>NSExceptionAllowsInsecureHTTPLoads</key>
+                   <true/>
+               </dict>
+         </dict>
+      </dict>
+    <key>NSBluetoothAlwaysUsageDescription</key>
+     <string>Данные Bluetooth собираются и отправляются на сервер для безопасного проведения оплаты</string>
 </dict>
 </plist>
