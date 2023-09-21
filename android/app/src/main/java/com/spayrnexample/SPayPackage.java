@@ -23,7 +23,7 @@ public class SPayPackage implements ReactPackage {
            ReactApplicationContext reactContext) {
        List<NativeModule> modules = new ArrayList<>();
 
-       modules.add(new SPay(reactContext));
+       modules.add(new SPayBridgeModule(reactContext));
 
        return modules;
    }
